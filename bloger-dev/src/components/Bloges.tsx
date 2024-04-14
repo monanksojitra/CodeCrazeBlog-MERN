@@ -8,17 +8,16 @@ const Bloges = () => {
   const { getAllPosts, posts } = useAuth();
   useEffect(() => {
     getAllPosts();
-  }, []);
-  console.log(posts);
+  }, [posts.length]);
   return (
     <>
       <Navbar />
-      <div className="flex items-center justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 p-5">
         {posts &&
           posts.map((post) => (
             <Card
               key={post._id}
-              author={post.author}
+              author={post.username}
               description={post.description}
               postImg={post.image}
               title={post.title}

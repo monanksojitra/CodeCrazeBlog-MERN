@@ -29,15 +29,15 @@ const Card = ({
             alt="ui/ux review check"
           />
         </div>
-        <div className="p-6">
-          <h4 className="block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
+        <div className="px-6 py-2">
+          <h4 className="block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
             {title}
           </h4>
-          <p className="mt-3 block font-sans text-xl font-normal leading-relaxed text-gray-700 antialiased">
+          <p className="mt-1 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
             {description}
           </p>
         </div>
-        <div className="flex items-center justify-between p-6">
+        <div className="flex items-center justify-between px-6 py-2">
           <div className="flex items-center gap-x-2">
             <img
               alt="natali craig"

@@ -105,7 +105,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const data = await axios.get("/post");
       setPosts(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -118,7 +117,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         .then(({ message }) => {
           resolve(true);
           toast.success(message);
-          return true;
+          getAllPosts();
         })
         .catch((error) => {
           console.error(error);

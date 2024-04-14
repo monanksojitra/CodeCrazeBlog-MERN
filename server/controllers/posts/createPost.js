@@ -1,6 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
 import config from "../../constants/config.js";
 import { Post } from "../../models/Post.js";
+import { User } from "../../models/Account.js";
+import fs from "fs";
 
 const createPost = async (req, res) => {
   try {
@@ -15,8 +17,10 @@ const createPost = async (req, res) => {
     const {
       auth: { uid },
       body: { title, description },
+
       file,
     } = req;
+    const { username } = await User.findById({ _id: uid });
 
     // Validate input
     if (!title || !description || !file) {
@@ -35,12 +39,13 @@ const createPost = async (req, res) => {
       description,
       image: coverUrl,
       author: uid,
+      username: username,
     });
 
     // Save the new Post to the database
     // Assuming there's a save method on the Post model
     await newPost.save();
-
+    fs.unlinkSync(file.path);
     // Respond with success
     res
       .status(201)

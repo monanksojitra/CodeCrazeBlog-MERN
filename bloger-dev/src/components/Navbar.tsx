@@ -111,13 +111,21 @@ const Navbar = () => {
                     </LinkItem>
 
                     {account ? (
-                      <LinkItem
-                        style="dark:text-blue-600 dark:hover:text-black"
-                        NavLink="/"
-                        onClick={() => logout()}
-                      >
-                        Logout
-                      </LinkItem>
+                      <>
+                        <div
+                          onClick={() => setPopover(true)}
+                          className=" py-2 text-nowrap text-base font-medium text-body-color hover:text-dark dark:text-blue-600 dark:hover:text-black inline-flex md:hidden"
+                        >
+                          add post
+                        </div>
+                        <LinkItem
+                          style="dark:text-blue-600 dark:hover:text-black"
+                          NavLink="/"
+                          onClick={() => logout()}
+                        >
+                          Logout
+                        </LinkItem>
+                      </>
                     ) : (
                       <div className="md:hidden">
                         <LinkItem
