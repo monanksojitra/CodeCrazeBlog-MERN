@@ -22,6 +22,7 @@ type AuthContextType = {
   logout: () => void;
   getAllPosts: () => Promise<any>;
   addNewPost: (formData: any) => Promise<boolean>;
+  posts: any;
 };
 
 // Initialize context
@@ -35,6 +36,7 @@ type AuthProviderProps = {
 // Export the provider (handle all the logic here)
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [posts, setPosts] = useState([]);
   const [account, setAccount] = useState<Account | null>(null);
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token") || null
@@ -56,12 +58,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
     });
 
-  const login = (formData: any = {}): Promise<boolean> =>
+  const login = (formData: any): Promise<void> =>
     new Promise((resolve, reject) => {
       axios
         .post("/auth/login", formData)
         .then(({ data: accountData, token: accessToken }) => {
-          console.log(accessToken);
           setAccount(accountData);
           setToken(accessToken);
           setIsLoggedIn(true);
@@ -102,10 +103,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const getAllPosts = async (): Promise<any> => {
     try {
-      const { data } = await axios.get("/posts");
-      return data;
+      const data = await axios.get("/post");
+      setPosts(data);
+      console.log(data);
     } catch (error) {
-      return -1;
+      console.log(error);
     }
   };
 
@@ -116,10 +118,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         .then(({ message }) => {
           resolve(true);
           toast.success(message);
+          return true;
         })
         .catch((error) => {
           console.error(error);
           reject(error?.response?.data?.message || error.message);
+          return false;
         });
     });
 
@@ -136,9 +140,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // This side effect runs only if we have a token, but no account or logged-in boolean.
   // This "if" statement is "true" only when refreshed, or re-opened the browser,
   // if true, it will then ask the backend for the account information (and will get them if the token hasn't expired)
-  useEffect(() => {
-    if (!isLoggedIn && !account && token) loginWithToken();
-  }, [isLoggedIn, account, token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AuthContext.Provider
@@ -151,6 +152,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         logout,
         getAllPosts,
         addNewPost,
+        posts,
       }}
     >
       {children}

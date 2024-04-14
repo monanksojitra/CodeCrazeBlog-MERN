@@ -1,6 +1,21 @@
 import React from "react";
 
-const Card = ({ postImg, title, description, avtar, publishDate, author }) => {
+type CardProps = {
+  postImg?: string;
+  title: string;
+  description: string;
+  avtar?: string;
+  publishDate: string;
+  author: string;
+};
+const Card = ({
+  postImg,
+  title,
+  description,
+  avtar,
+  publishDate,
+  author,
+}: CardProps) => {
   return (
     <>
       <div className="relative flex max-w-[16rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">

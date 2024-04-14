@@ -1,8 +1,8 @@
 import express from "express";
 import getAllPosts from "../controllers/posts/getAllPosts.js";
-import createPost from "../controllers/posts/addNewPost.js";
 import path from "path";
 import multer from "multer";
+import createPost from "../controllers/posts/createPost.js";
 
 // const upload = multer({ dest: path.resolve("./uploads") });
 const storage = multer.diskStorage({
@@ -13,12 +13,13 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
+
 const upload = multer({ storage: storage });
-// initialize router
+
 const router = express.Router();
 
-// POST at route: http://localhost:8080/auth/register
 router.get("/", getAllPosts);
+
 router.post("/add", upload.single("file"), createPost);
 
 export default router;

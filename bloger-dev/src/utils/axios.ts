@@ -37,7 +37,6 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       // Server responded with an error status code
       const statusCode = error.response.status;
-      console.log(statusCode);
       toast.error(`Error: ${error.response.data.message}`);
       if (statusCode === 401) {
         // Use React Context to remove token

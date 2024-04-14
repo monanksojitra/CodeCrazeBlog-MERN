@@ -12,8 +12,8 @@ const Navbar = () => {
 
   return (
     <header className={`flex w-full items-center bg-white dark:bg-gray-900`}>
-      <Popup  modal open={popover} onClose={() => setPopover(false)}>
-        <CreateBlog />
+      <Popup modal open={popover} onClose={() => setPopover(false)}>
+        <CreateBlog setPopover={setPopover} />
       </Popup>
       <div className="container mx-auto">
         <div className="relative max-sm:pl-3 px-5 flex items-center justify-between">

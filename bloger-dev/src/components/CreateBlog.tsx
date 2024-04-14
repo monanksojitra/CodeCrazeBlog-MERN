@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form";
 import InputBox from "./UI/Input";
 import { useAuth } from "../contexts/AuthContext";
 
-const CreateBlog = () => {
+
+const CreateBlog = ({ setPopover }) => {
   const { addNewPost } = useAuth();
   const {
     register,
@@ -24,6 +25,7 @@ const CreateBlog = () => {
     formData.append("file", data.file[0]);
     try {
       addNewPost(formData);
+      setPopover(false);
     } catch (error) {
       console.error("Failed to create post:", error);
     }
