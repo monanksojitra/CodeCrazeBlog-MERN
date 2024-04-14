@@ -8,6 +8,7 @@ const Signin = () => {
   const navigate = useNavigate();
   if (isLoggedIn) {
     navigate("/");
+    return;
   }
   const {
     register,

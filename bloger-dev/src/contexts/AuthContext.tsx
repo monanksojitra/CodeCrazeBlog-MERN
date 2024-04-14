@@ -1,12 +1,11 @@
 import {
+  ReactNode,
   createContext,
   useContext,
-  useState,
   useEffect,
-  ReactNode,
+  useState,
 } from "react";
 import axios from "../utils/axios";
-import { Navigate, useNavigate } from "react-router-dom";
 
 // Define types
 type Account = {
