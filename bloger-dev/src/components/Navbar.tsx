@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LinkItem from "./UI/LinkItem";
 import { useAuth } from "../contexts/AuthContext";
+import CreateBlog from "./CreateBlog";
+import Popup from "reactjs-popup";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { isLoggedIn, account, logout } = useAuth();
+  const [popover, setPopover] = useState(false);
+
   return (
     <header className={`flex w-full items-center bg-white dark:bg-gray-900`}>
+      <Popup  modal open={popover} onClose={() => setPopover(false)}>
+        <CreateBlog />
+      </Popup>
       <div className="container mx-auto">
         <div className="relative max-sm:pl-3 px-5 flex items-center justify-between">
           <div className="w-60 max-w-full md:px-4">
@@ -35,7 +42,10 @@ const Navbar = () => {
             <div className="flex">
               <div className=" hidden md:flex justify-end items-center">
                 {isLoggedIn ? (
-                  <div className="rounded-md bg-blue-600 px-7  py-3 text-base font-medium text-white hover:bg-blue-600/90">
+                  <div
+                    onClick={() => setPopover(true)}
+                    className="rounded-md bg-blue-600 px-7  py-3 text-base font-medium text-white hover:bg-blue-600/90"
+                  >
                     add post
                   </div>
                 ) : (
@@ -102,7 +112,7 @@ const Navbar = () => {
 
                     {account ? (
                       <LinkItem
-                        style="dark:text-gray-900"
+                        style="dark:text-blue-600 dark:hover:text-black"
                         NavLink="/"
                         onClick={() => logout()}
                       >

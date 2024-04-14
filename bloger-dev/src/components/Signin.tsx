@@ -8,7 +8,6 @@ const Signin = () => {
   const navigate = useNavigate();
   if (isLoggedIn) {
     navigate("/");
-    return;
   }
   const {
     register,
@@ -23,8 +22,6 @@ const Signin = () => {
   });
 
   const onSubmit = async (formData: { username: string; password: string }) => {
-    console.log(formData);
-    // Implement your login logic here
     await loginUser(formData);
   };
 

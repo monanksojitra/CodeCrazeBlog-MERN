@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 import axios from "../utils/axios";
 
 // Define types
@@ -20,6 +21,7 @@ type AuthContextType = {
   login: (formData: any) => Promise<boolean>;
   logout: () => void;
   getAllPosts: () => Promise<any>;
+  addNewPost: (formData: any) => Promise<boolean>;
 };
 
 // Initialize context
@@ -59,6 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       axios
         .post("/auth/login", formData)
         .then(({ data: accountData, token: accessToken }) => {
+          console.log(accessToken);
           setAccount(accountData);
           setToken(accessToken);
           setIsLoggedIn(true);
@@ -74,13 +77,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsLoggedIn(false);
     setAccount(null);
     setToken(null);
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully");
   };
 
   const loginWithToken = async (): Promise<void> => {
     try {
       const {
         data: { data: accountData, token: accessToken },
-      } = await axios.get("/auth/login", {
+      } = await axios.post("/auth/login", {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -98,13 +103,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const getAllPosts = async (): Promise<any> => {
     try {
       const { data } = await axios.get("/posts");
-      console.log(data);
       return data;
     } catch (error) {
-      console.log(error);
       return -1;
     }
   };
+
+  const addNewPost = (formData: any = {}): Promise<boolean> =>
+    new Promise((resolve, reject) => {
+      axios
+        .post("/post/add", formData)
+        .then(({ message }) => {
+          resolve(true);
+          toast.success(message);
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(error?.response?.data?.message || error.message);
+        });
+    });
 
   // This side effect keeps local storage updated with recent token value,
   // making sure it can be re-used upon refresh or re-open browser
@@ -133,6 +150,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         login,
         logout,
         getAllPosts,
+        addNewPost,
       }}
     >
       {children}

@@ -1,13 +1,17 @@
-const createPost = async (request, response, next) => {
+const createPost = async (request, response) => {
   try {
-    const { title, description, image } = request.body;
-    const { uid } = request.auth;
-
-    const newPost = new Post({
+    const { uid } = request;
+    const newPost = await new Post({
       title,
       description,
-      image,
+      image: request.file.path,
       author: uid,
+    });
+    if (!newPost)
+      return response.status(404).json({ message: "Error creating post" });
+    response.status(201).json({
+      message: "Post created",
     });
   } catch (error) {}
 };
+export default createPost;

@@ -6,7 +6,7 @@ type InputProps = {
 };
 const InputBox = ({ type, placeholder, error, register }: InputProps) => {
   return (
-    <div className="mb-6 space-y-1">
+    <div className="mb-4 space-y-1">
       <input
         type={type}
         placeholder={placeholder}

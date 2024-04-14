@@ -1,16 +1,20 @@
+// axiosInstance.js
 import axios from "axios";
 import { toast } from "react-toastify";
-import navigate from "./navigator";
+import { useAuth } from "../contexts/AuthContext";
 
-// Create Axios instance with base URL
+// Use environment variable for base URL
+const baseURL = "http://localhost:8080/api/v1";
+
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL,
 });
 
-// Add request interceptor to attach JWT token
+// Request interceptor for attaching JWT token
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
+    // Use React Context for token
     if (token) {
       config.headers.authorization = `Bearer ${token}`;
     }
@@ -21,7 +25,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add response interceptor for handling errors
+// Response interceptor for handling errors
 axiosInstance.interceptors.response.use(
   (response) => {
     // Success handler
@@ -36,8 +40,7 @@ axiosInstance.interceptors.response.use(
       console.log(statusCode);
       toast.error(`Error: ${error.response.data.message}`);
       if (statusCode === 401) {
-        localStorage.removeItem("token");
-        navigate("/login");
+        // Use React Context to remove token
       }
     } else if (error.request) {
       // Request made but no response received

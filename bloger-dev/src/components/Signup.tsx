@@ -19,7 +19,6 @@ const Signup = () => {
 
   const onSubmit = async (formData: { username: string; password: string }) => {
     try {
-      console.log(formData);
       await registerUser(formData);
       // Redirect or do something on successful registration
     } catch (error) {
