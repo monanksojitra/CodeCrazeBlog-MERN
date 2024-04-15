@@ -10,7 +10,12 @@ import axios from "../utils/axios";
 
 // Define types
 type Account = {
-  // Define account properties here
+  _id: string;
+  name: string;
+  username: string;
+  isAdmin: boolean;
+  posts: any[];
+  token: string;
 };
 
 type AuthContextType = {
@@ -97,7 +102,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
-      if (error?.response?.statusCode === 401) setToken(null);
+      if (error?.response?.statusCode === 401) {
+        setToken(null);
+
+        localStorage.removeItem("token");
+      }
     }
   };
 
@@ -114,9 +123,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     new Promise((resolve, reject) => {
       axios
         .post("/post/add", formData)
-        .then(({ message }) => {
+        .then(() => {
           resolve(true);
-          toast.success(message);
           getAllPosts();
         })
         .catch((error) => {
