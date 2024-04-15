@@ -5,10 +5,10 @@ import Navbar from "./Navbar";
 import Card from "./UI/Card";
 
 const Bloges = () => {
-  const { getAllPosts, posts } = useAuth();
+  const { posts, getAllPosts } = useAuth();
   useEffect(() => {
     getAllPosts();
-  }, [posts.length]);
+  }, []);
   return (
     <>
       <Navbar />

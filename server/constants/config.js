@@ -1,4 +1,3 @@
-
 const config = {
   PORT: process.env.PORT || 5000,
   MONGO_URI: process.env.MONGO_URI,
@@ -9,5 +8,7 @@ const config = {
   CLOUDINARY_API_SECRET:
     process.env.CLOUDINARY_API_SECRET || "XQQ0D0V0wIXWAUuj3bxcMQ9hNpE",
 };
+
+
 
 export default config;

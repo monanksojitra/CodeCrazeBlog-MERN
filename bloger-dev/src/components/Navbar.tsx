@@ -7,9 +7,8 @@ import Popup from "reactjs-popup";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { isLoggedIn, account, logout } = useAuth();
+  const { logout, isLoggedIn, account } = useAuth();
   const [popover, setPopover] = useState(false);
-
   return (
     <header className={`flex w-full items-center bg-white dark:bg-gray-900`}>
       <Popup modal open={popover} onClose={() => setPopover(false)}>

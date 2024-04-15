@@ -1,23 +1,13 @@
-import { v2 as cloudinary } from "cloudinary";
-import config from "../../constants/config.js";
-import { Post } from "../../models/Post.js";
-import { User } from "../../models/Account.js";
 import fs from "fs";
+import { uploadFile } from "../../constants/cloudinaryconfig.js";
+import { User } from "../../models/Account.js";
+import { Post } from "../../models/Post.js";
 
 const createPost = async (req, res) => {
   try {
-    // Configure Cloudinary
-    cloudinary.config({
-      cloud_name: config.CLOUDINARY_CLOUD_NAME,
-      api_key: config.CLOUDINARY_API_KEY,
-      api_secret: config.CLOUDINARY_API_SECRET,
-    });
-
-    // Destructure request body and file
     const {
       auth: { uid },
       body: { title, description },
-
       file,
     } = req;
     const { username } = await User.findById({ _id: uid });
@@ -27,19 +17,14 @@ const createPost = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Upload file to Cloudinary
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: "covers",
-    });
-    const coverUrl = result.url;
-
-    // Create a new Post
+    const result = await uploadFile({ file, folderName: "covers" });
     const newPost = new Post({
       title,
       description,
-      image: coverUrl,
+      image: result.url,
       author: uid,
       username: username,
+      public_id: result.public_id,
     });
 
     // Save the new Post to the database

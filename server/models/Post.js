@@ -14,16 +14,21 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     author: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
     image: {
       type: String,
+      required: true,
+    },
+    public_id: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Post = mongoose.model("blog", postSchema);
 
 export { Post };

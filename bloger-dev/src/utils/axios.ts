@@ -1,6 +1,6 @@
+import { toast } from "react-toastify";
 // axiosInstance.js
 import axios from "axios";
-import { toast } from "react-toastify";
 
 // Use environment variable for base URL
 const baseURL = "http://localhost:8080/api/v1";
@@ -29,6 +29,9 @@ axiosInstance.interceptors.response.use(
   ({ data: response }) => {
     // Success handler
     toast.success(response.message);
+    if (response.token) {
+      localStorage.setItem("token", response.token);
+    }
     return response.data;
   },
   (error) => {

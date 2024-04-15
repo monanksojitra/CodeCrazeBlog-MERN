@@ -8,7 +8,7 @@ import { authorizeBearerToken } from "./middlewares/jsonwebtoken.js";
 dotenv.config();
 
 connectDB();
-app.use("/", getProperty);
+// app.use("/", getProperty);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/post", authorizeBearerToken, postRoutes);
 

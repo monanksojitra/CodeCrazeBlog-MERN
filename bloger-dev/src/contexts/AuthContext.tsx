@@ -67,9 +67,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     new Promise((resolve, reject) => {
       axios
         .post("/auth/login", formData)
-        .then(({ data: accountData, token: accessToken }) => {
-          setAccount(accountData);
-          setToken(accessToken);
+        .then((data) => {
+          setAccount(data);
           setIsLoggedIn(true);
           resolve(true);
         })
@@ -113,6 +112,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const getAllPosts = async (): Promise<any> => {
     try {
       const data = await axios.get("/post");
+
       setPosts(data);
     } catch (error) {
       console.log(error);

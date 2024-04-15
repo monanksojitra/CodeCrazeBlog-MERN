@@ -2,13 +2,12 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import InputBox from "./UI/Input";
+import { useEffect } from "react";
 
 const Signin = () => {
-  const { login: loginUser, isLoggedIn } = useAuth();
-  const navigate = useNavigate();
-  if (isLoggedIn) {
-    navigate("/");
-  }
+  const { login: loginUser } = useAuth();
+  const navigat = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -20,6 +19,9 @@ const Signin = () => {
       password: "",
     },
   });
+  if (localStorage.getItem("token")) {
+    navigat("/");
+  }
 
   const onSubmit = async (formData: { username: string; password: string }) => {
     await loginUser(formData);
