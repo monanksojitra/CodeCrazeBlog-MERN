@@ -1,19 +1,20 @@
-import { toast } from "react-toastify";
-// axiosInstance.js
 import axios from "axios";
+import { toast } from "react-toastify";
 
-// Use environment variable for base URL
-const baseURL = "http://localhost:8080/api/v1";
+// Function to get JWT token from local storage
+const getToken = () => {
+  return localStorage.getItem("token");
+};
 
-const axiosInstance = axios.create({
-  baseURL,
+// Axios instance with custom configuration
+const api = axios.create({
+  baseURL: "http://localhost:8080/api/v1",
 });
 
-// Request interceptor for attaching JWT token
-axiosInstance.interceptors.request.use(
+// Request interceptor to add JWT token to headers
+api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    // Use React Context for token
+    const token = getToken();
     if (token) {
       config.headers.authorization = `Bearer ${token}`;
     }
@@ -24,31 +25,21 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Response interceptor for handling errors
-axiosInstance.interceptors.response.use(
-  ({ data: response }) => {
-    // Success handler
-    toast.success(response.message);
-    if (response.token) {
-      localStorage.setItem("token", response.token);
-    }
-    return response.data;
+// Response interceptor to handle responses and errors
+api.interceptors.response.use(
+  (response) => {
+    // You can customize the toast message based on the response status code
+    toast.success(response.data.message);
+    return response;
   },
   (error) => {
-    // Error handler
-    if (error.response) {
-      toast.error(`Error: ${error.response.data.message}`);
-      // Use React Context to remove token
-      localStorage.removeItem("token");
-    } else if (error.request) {
-      // Request made but no response received
-      console.error("Request error:", error.request);
+    if (error.response.status === 401) {
+      toast.error("Unauthorized - invalid token");
     } else {
-      // Something else happened
-      console.error("Error:", error.message);
+      toast.error(error.response.data.message);
     }
     return Promise.reject(error);
   }
 );
 
-export default axiosInstance;
+export default api;

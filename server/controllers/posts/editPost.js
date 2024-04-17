@@ -1,44 +1,45 @@
+import fs from "fs";
+import { deleteFile, uploadFile } from "../../constants/cloudinaryconfig.js";
 import { Post } from "../../models/Post.js";
+const updatePost = async (req, res) => {
+  const {
+    params: { id },
+    body: { title, description },
+    file: { path },
+  } = req;
 
-const editPost = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const {
-      auth: { uid },
-      body: { title, description },
-      file,
-    } = req;
-    const isPostExist = await Post.findById({ _id: id });
-    if (!isPostExist && uid !== isPostExist.author)
-      return res.status(404).json({ message: "Something went wrong" });
-    if (file) {
-      const result = await cloudinary.uploader.upload(file.path, {
-        folder: "covers",
-      });
+  if (!id) return res.status(400).json({ message: "Id is required" });
+  if (!title || !description)
+    return res
+      .status(400)
+      .json({ message: "title and description are required" });
+  if (!path)
+    return res.status(400).json({ message: "Cover image is required" });
+
+  const { filename } = await Post.findOne({ _id: id });
+
+  const { result } = await deleteFile(filename);
+
+  //   console.log("this is delete filr :", isDeleted);
+  //   res.status(200).json({ message: "Post updated" });
+  if (result !== "ok")
+    return res.status(404).json({ message: "Post not found" });
+
+  const { public_id, url } = await uploadFile({ path, folder: "post" });
+  fs.unlinkSync(path);
+
+  const data = await Post.updateOne(
+    { _id: id },
+    {
+      title,
+      description,
+      filename: public_id,
+      filepath: url,
     }
-    Post.findByIdAndUpdate(
-      id,
-      {
-        title,
-        description,
-      },
-      { new: true }
-    ).then((data) => {
-      if (!data) {
-        return res.status(404).json({
-          message: "Something went wrong Please try again",
-        });
-      }
-      return res.status(200).json({
-        message: "Post updated",
-        data,
-      });
-    });
-  } catch (err) {
-    return res.status(500).json({
-      message: err.message,
-    });
-  }
+  );
+  if (!data) return res.status(404).json({ message: "Post not found" });
+
+  return res.status(200).json({ message: "Post updated", data: data });
 };
 
-export default editPost;
+export default updatePost;

@@ -10,6 +10,8 @@ const createPost = async (req, res) => {
       body: { title, description },
       file,
     } = req;
+    console.log(file);
+    // console.log("this is ", file);
     const { username } = await User.findById({ _id: uid });
 
     // Validate input
@@ -21,10 +23,10 @@ const createPost = async (req, res) => {
     const newPost = new Post({
       title,
       description,
-      image: result.url,
+      filepath: result.url,
       author: uid,
       username: username,
-      public_id: result.public_id,
+      filename: result.public_id,
     });
 
     // Save the new Post to the database

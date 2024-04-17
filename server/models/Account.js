@@ -11,9 +11,33 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       unique: true,
     },
+    email: {
+      type: String,
+      unique: true,
+    },
+    firstname: {
+      type: String,
+    },
+    lastname: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    postalcode: {
+      type: Number,
+    },
     password: {
       type: String,
-      required: true,
+    },
+    bio: {
+      type: String,
     },
   },
   { timestamps: true }

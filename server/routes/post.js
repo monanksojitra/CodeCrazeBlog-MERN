@@ -21,8 +21,8 @@ const router = express.Router();
 
 router.get("/", getAllPosts);
 
-router.post("/add", upload.single("file"), createPost);
+router.post("/add", upload.single("cover"), createPost);
 
-router.patch("/:id", upload.single("file"), editPost);
+router.patch("/:id", upload.single("cover"), editPost);
 
 export default router;

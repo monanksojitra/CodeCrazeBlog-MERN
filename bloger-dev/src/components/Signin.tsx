@@ -19,12 +19,10 @@ const Signin = () => {
       password: "",
     },
   });
-  if (localStorage.getItem("token")) {
-    navigat("/");
-  }
 
   const onSubmit = async (formData: { username: string; password: string }) => {
     await loginUser(formData);
+    navigat("/");
   };
 
   return (

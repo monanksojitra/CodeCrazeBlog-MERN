@@ -5,9 +5,12 @@ async function loginWithToken(request, response, next) {
   try {
     const { uid } = request.auth;
 
+    if (!uid)
+      return response
+        .status(401)
+        .json({ message: "Unauthorized - invalid token" });
     // Get account from DB, existance not verified because we are already authorized at this point
     const foundAccount = await User.findOne({ _id: uid }).select("-password");
-
     // Generate access token
     const token = signToken({ uid: foundAccount._id, role: foundAccount.role });
 

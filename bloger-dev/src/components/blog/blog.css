@@ -1,0 +1,3 @@
+.popup-overlay {
+    @apply absolute overflow-auto inset-0 bg-black bg-opacity-50; 
+}

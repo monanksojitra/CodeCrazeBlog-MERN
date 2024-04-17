@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import InputBox from "./UI/Input";
 
 const Signup = () => {
   const { register: registerUser } = useAuth();
+  const navigat = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,12 +15,14 @@ const Signup = () => {
     defaultValues: {
       username: "",
       password: "",
+      email: "",
     },
   });
 
   const onSubmit = async (formData: { username: string; password: string }) => {
     try {
       await registerUser(formData);
+      navigat("/");
       // Redirect or do something on successful registration
     } catch (error) {
       // Handle registration error
@@ -58,6 +61,14 @@ const Signup = () => {
                   placeholder="Username"
                   register={register("username", {
                     required: "username is required",
+                  })}
+                  error={errors?.username?.message || ""}
+                />
+                <InputBox
+                  type="email"
+                  placeholder="Email"
+                  register={register("email", {
+                    required: "Email is required",
                   })}
                   error={errors?.username?.message || ""}
                 />
