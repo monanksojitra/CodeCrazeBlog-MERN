@@ -1,9 +1,10 @@
 import express from "express";
 import getAllPosts from "../controllers/posts/getAllPosts.js";
 import path from "path";
-import multer from "multer";
 import createPost from "../controllers/posts/createPost.js";
 import editPost from "../controllers/posts/editPost.js";
+import multer from "multer";
+import deletePostByPostId from "../controllers/posts/deletePost.js";
 
 // const upload = multer({ dest: path.resolve("./uploads") });
 const storage = multer.diskStorage({
@@ -11,7 +12,7 @@ const storage = multer.diskStorage({
     cb(null, path.resolve("./uploads"));
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null, Date.now() + "_" + file.originalname);
   },
 });
 
@@ -21,8 +22,10 @@ const router = express.Router();
 
 router.get("/", getAllPosts);
 
-router.post("/add", upload.single("cover"), createPost);
+router.post("/add", upload.single("file"), createPost);
 
-router.patch("/:id", upload.single("cover"), editPost);
+router.put("/:id", upload.single("file"), editPost);
+
+router.delete("/:id", deletePostByPostId);
 
 export default router;

@@ -8,11 +8,8 @@ import { IconInfoCircle } from "@tabler/icons-react";
 import Card from "./Card";
 
 const Blogs = () => {
-  const { getAllPost, posts, deletePost, isLoggedIn } = useAuth();
+  const { getAllPost, posts, isLoggedIn, deletePost } = useAuth();
 
-  useEffect(() => {
-    getAllPost();
-  }, []);
   const [modelOpen, setModelOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [defaultValues, setDefaultValues] = useState({});
@@ -21,9 +18,12 @@ const Blogs = () => {
     setDefaultValues({ _id: id });
   };
   const confirmDelete = () => {
-    deletePost(defaultValues._id);
+    deletePost(defaultValues._id as string);
     setAlertOpen(false);
   };
+  useEffect(() => {
+    getAllPost();
+  }, []);
   return (
     <div>
       <>

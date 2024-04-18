@@ -17,8 +17,7 @@ const CreateAndEditBlog = ({ modelOpen, defaultValues }) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
-    formData.append("cover", data.cover[0]);
-    console.log(formData);
+    formData.append("file", data.file[0]);
 
     if (!defaultValues._id) {
       await addNewPost(formData);
@@ -84,7 +83,7 @@ const CreateAndEditBlog = ({ modelOpen, defaultValues }) => {
                   type="file"
                   id="file"
                   className="sr-only"
-                  {...register("cover", { required: "file is required" })}
+                  {...register("file", { required: "file is required" })}
                 />
                 <label
                   htmlFor="file"

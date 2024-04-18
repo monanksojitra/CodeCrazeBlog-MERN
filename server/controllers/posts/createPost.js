@@ -8,18 +8,16 @@ const createPost = async (req, res) => {
     const {
       auth: { uid },
       body: { title, description },
-      file,
+      file: { path },
     } = req;
-    console.log(file);
-    // console.log("this is ", file);
     const { username } = await User.findById({ _id: uid });
 
     // Validate input
-    if (!title || !description || !file) {
+    if (!title || !description || !path) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const result = await uploadFile({ file, folderName: "covers" });
+    const result = await uploadFile({ path, folderName: "covers" });
     const newPost = new Post({
       title,
       description,
@@ -32,7 +30,7 @@ const createPost = async (req, res) => {
     // Save the new Post to the database
     // Assuming there's a save method on the Post model
     await newPost.save();
-    fs.unlinkSync(file.path);
+    fs.unlinkSync(path);
     // Respond with success
     res
       .status(201)

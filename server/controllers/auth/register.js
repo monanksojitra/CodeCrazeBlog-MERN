@@ -43,7 +43,6 @@ async function registerUser(request, response) {
 
     // Generate access token
     const token = await signToken({ uid: newAccount._id });
-    console.log(token);
     response.status(201).json({
       message: "Succesfully registered",
       token,

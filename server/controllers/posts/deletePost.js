@@ -1,5 +1,5 @@
-import { deleteFile } from "../../constants/cloudconnect.js";
-import { BlogPost } from "../../models/bloger.js";
+import { deleteFile } from "../../constants/cloudinaryconfig.js";
+import { Post } from "../../models/Post.js";
 
 const deletePostByPostId = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ const deletePostByPostId = async (req, res) => {
 
     if (!id) return res.status(400).json({ message: "Id is required" });
 
-    const data = await BlogPost.findByIdAndDelete({ _id: id, author: uid });
+    const data = await Post.findByIdAndDelete({ _id: id, author: uid });
 
     if (!data) return res.status(404).json({ message: "Post not found" });
 
@@ -24,7 +24,8 @@ const deletePostByPostId = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      message: err.message,
+      massage: "Something went wrong",
+      error: err.message,
     });
   }
 };
