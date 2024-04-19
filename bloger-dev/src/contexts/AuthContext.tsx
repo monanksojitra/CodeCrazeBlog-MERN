@@ -26,6 +26,7 @@ interface AuthContextValue {
   posts: object[];
   deletePost: (postid: string) => void;
   updateBlog: (formData: any, postId: string) => void;
+  deleteProfile: () => void;
 }
 
 // Define the shape of the props for the AuthProvider component
@@ -79,6 +80,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setAccount(null);
     setToken(null);
     toast.success("Logout successful");
+  };
+
+  const deleteProfile = () => {
+    axios
+      .delete("/auth/profile")
+      .then((response) => {
+        toast.success("Profile deleted successfully");
+        logout();
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error(error?.response?.data?.message || error.message);
+      });
   };
   const getAllPost = () => {
     axios
@@ -183,6 +197,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         getAllPost,
         deletePost,
         updateBlog,
+        deleteProfile,
         posts,
       }}
     >

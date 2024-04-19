@@ -34,7 +34,7 @@ const Navbar = () => {
                   <LinkItem NavLink="/">Home</LinkItem>
                   <LinkItem NavLink="/blogs">Blogs</LinkItem>
                   <LinkItem NavLink="/about">About</LinkItem>
-                  <LinkItem NavLink="/contact">Contact</LinkItem>
+                  <LinkItem NavLink="/profile">Profile</LinkItem>
                 </ul>
               </nav>
             </div>
@@ -104,9 +104,9 @@ const Navbar = () => {
                     </LinkItem>
                     <LinkItem
                       style="dark:text-gray-900 lg:hidden"
-                      NavLink="/contact"
+                      NavLink="/profile"
                     >
-                      Contact
+                      Profile
                     </LinkItem>
 
                     {account ? (

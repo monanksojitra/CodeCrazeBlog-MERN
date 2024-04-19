@@ -12,6 +12,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import "./index.css";
 import { ToastContainer } from "react-toastify";
 import Blogs from "./components/blog/Blogs";
+import Profile from "./components/profile/Profile";
 
 // Separate Routes into a Dedicated Component
 const MainRoutes = () => {
@@ -19,6 +20,7 @@ const MainRoutes = () => {
     <Routes>
       <Route path="/" element={<App />}>
         <Route index path="/blogs" element={<Blogs />} />
+        <Route index path="/profile" element={<Profile />} />
       </Route>
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
