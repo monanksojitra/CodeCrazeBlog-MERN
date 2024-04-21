@@ -5,14 +5,21 @@ async function loginWithToken(request, response, next) {
   try {
     const { uid } = request.auth;
 
-    if (!uid)
+    if (!uid) {
       return response
         .status(401)
         .json({ message: "Unauthorized - invalid token" });
-    // Get account from DB, existance not verified because we are already authorized at this point
+    }
+
+    // Get account from DB, existence not verified because we are already authorized at this point
     const foundAccount = await User.findOne({ _id: uid }).select("-password");
+
+    if (!foundAccount) {
+      return response.status(404).json({ message: "Account not found" });
+    }
+
     // Generate access token
-    const token = signToken({ uid: foundAccount._id, role: foundAccount.role });
+    const token = signToken({ uid: foundAccount._id });
 
     response.status(200).json({
       message: "Account fetched",
@@ -21,7 +28,7 @@ async function loginWithToken(request, response, next) {
     });
   } catch (error) {
     console.error(error);
-    response.status(500).send();
+    response.status(500).send({ message: "Internal server error" });
   }
 }
 

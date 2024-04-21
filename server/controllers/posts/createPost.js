@@ -10,7 +10,11 @@ const createPost = async (req, res) => {
       body: { title, description },
       file: { path },
     } = req;
-    const { username } = await User.findById({ _id: uid });
+
+    const user = await User.findById(uid).select("username");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     // Validate input
     if (!title || !description || !path) {
@@ -18,19 +22,25 @@ const createPost = async (req, res) => {
     }
 
     const result = await uploadFile({ path, folderName: "covers" });
-    const newPost = new Post({
+    if (!result) {
+      return res.status(500).json({ message: "Failed to upload file" });
+    }
+    const newPost = await new Post({
       title,
       description,
       filepath: result.url,
       author: uid,
-      username: username,
+      username: user.username,
       filename: result.public_id,
     });
+    if (!newPost) {
+      return res.status(500).json({ message: "Failed to create post" });
+    }
 
     // Save the new Post to the database
-    // Assuming there's a save method on the Post model
     await newPost.save();
     fs.unlinkSync(path);
+
     // Respond with success
     res
       .status(201)

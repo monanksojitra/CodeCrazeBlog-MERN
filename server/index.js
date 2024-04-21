@@ -1,10 +1,10 @@
-import dotenv from "dotenv";
+
 import { authorizeBearerToken } from "./middlewares/jsonwebtoken.js";
 import connectDB from "./models/Db.js";
 import authRoutes from "./routes/auth.js";
 import postRoutes from "./routes/post.js";
 import app from "./utils/app.js";
-dotenv.config();
+
 
 connectDB();
 // app.use("/", getProperty);

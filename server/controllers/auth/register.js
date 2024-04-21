@@ -6,11 +6,7 @@ import { signToken } from "../../middlewares/jsonwebtoken.js";
 const schema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
   password: Joi.string()
-    .pattern(
-      new RegExp(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$"
-      )
-    )
+    .pattern(new RegExp(process.env.PASSWORDREGEX))
     .required(),
   email: Joi.string().email().required(),
 });
@@ -36,7 +32,7 @@ async function registerUser(request, response) {
   try {
     const { username, password, email } = request.body;
 
-    // Check if username already exists
+    // Check if username or email already exists
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return response.status(400).json({
@@ -56,7 +52,7 @@ async function registerUser(request, response) {
     const hash = await bcrypt.hash(password, 10);
 
     // Create new user
-    const newUser = new User({ username, password: hash, email });
+    const newUser = await new User({ username, password: hash, email });
     await newUser.save();
 
     // Generate access token
@@ -65,6 +61,7 @@ async function registerUser(request, response) {
     response.status(201).json({
       message: "Successfully registered",
       token,
+      data: { username: newUser.username, email: newUser.email },
     });
   } catch (error) {
     return response.status(500).json({

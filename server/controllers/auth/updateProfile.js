@@ -14,7 +14,7 @@ const updateProfile = async (req, res) => {
       },
       auth: { uid },
     } = req;
-    console.log(req.body);
+
     if (
       !firstname ||
       !lastname ||
@@ -26,6 +26,7 @@ const updateProfile = async (req, res) => {
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
+
     await User.updateOne(
       { _id: uid },
       {
@@ -40,15 +41,15 @@ const updateProfile = async (req, res) => {
         },
       }
     );
-    const data = await User.findById({ _id: uid });
+
+    const updatedUser = await User.findById(uid).select("-password");
     return res.status(200).json({
-      message: "Profile updated",
-      data,
+      message: "Profile updated successfully",
+      data: updatedUser,
     });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

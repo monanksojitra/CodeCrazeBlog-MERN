@@ -20,6 +20,7 @@ const Blogs = () => {
   const confirmDelete = () => {
     deletePost(defaultValues._id as string);
     setAlertOpen(false);
+    setDefaultValues({});
   };
   useEffect(() => {
     getAllPost();

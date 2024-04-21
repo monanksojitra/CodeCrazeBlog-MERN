@@ -47,10 +47,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (formData: any): Promise<boolean> => {
     try {
       const {
-        data: { data: accountData, token: accessToken },
+        data: { token, data: accountData },
       } = await axios.post("/auth/register", formData);
+      console.log(token);
       setAccount(accountData);
-      setToken(accessToken);
+      setToken(token);
       setIsLoggedIn(true);
       return true;
     } catch (error) {
@@ -104,8 +105,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
   };
   const getAllPost = () => {
-    if (!token) {
-      toast.error("Please Login First");
+    if (!token || token === "null" || !isLoggedIn) {
       return null;
     }
     axios

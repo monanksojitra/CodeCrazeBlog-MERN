@@ -10,23 +10,29 @@ const deletePostByPostId = async (req, res) => {
 
     if (!id) return res.status(400).json({ message: "Id is required" });
 
-    const data = await Post.findByIdAndDelete({ _id: id, author: uid });
+    const post = await Post.findOneAndDelete({ _id: id, author: uid });
 
-    if (!data) return res.status(404).json({ message: "Post not found" });
+    if (!post)
+      return res
+        .status(404)
+        .json({ message: "Post not found or you are not the author" });
 
-    const status = await deleteFile(data.filename);
+    const deleteStatus = await deleteFile(post.filename);
 
-    if (!status) return res.status(404).json({ message: "Post not found" });
+    if (!deleteStatus)
+      return res
+        .status(500)
+        .json({ message: "Failed to delete the file from the server" });
 
     return res.status(200).json({
-      message: "Post deleted",
-      data,
+      message: "Post deleted successfully",
+      data: post,
     });
-  } catch (err) {
-    return res.status(500).json({
-      massage: "Something went wrong",
-      error: err.message,
-    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 

@@ -1,41 +1,42 @@
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME || "du8fjnogk",
-  api_key: process.env.API_KEY || "334731757154325",
-  api_secret: process.env.API_SECRET || "g-M9m8Uv1F8xroJEYiS8xY6E_q8",
+  cloud_name: "dqtahkpi4",
+  api_key: "454875975863887",
+  api_secret: "_TUQHtRT6osCMgGWq-d5M7AfpBk",
+  secure: true,
 });
 
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+//   secure: true,
+// });
+// Utility function to handle Cloudinary uploads
 const uploadFile = async ({ path, folder }) => {
-  const result = await cloudinary.uploader.upload(
-    path,
-    { folder: folder },
-    function (error, result) {
-      if (error) {
-        console.log(error);
-        return -1;
-      }
-
-      //   console.log(result);
-      return result;
-    }
-  );
-
-  return result;
+  try {
+    const result = await cloudinary.uploader.upload(path, { folder });
+    return result;
+  } catch (error) {
+    console.error("Upload error:", error);
+    return null;
+  }
 };
 
-const deleteFile = async (public_id) => {
-  const result = await cloudinary.uploader.destroy(
-    [public_id],
-    function (error, result) {
-      if (error) {
-        console.log(error);
-        return -1;
-      }
-      return result;
-    }
-  );
-  return result;
+// Utility function to handle Cloudinary file deletions
+const deleteFile = async (publicId) => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: "image",
+      invalidate: true,
+      type: "upload",
+    });
+    return result;
+  } catch (error) {
+    console.error("Delete error:", error);
+    return null;
+  }
 };
 
 export { uploadFile, deleteFile };

@@ -41,32 +41,23 @@ const Navbar = () => {
               </nav>
             </div>
             <div className="flex">
-              <div className=" hidden md:flex justify-end items-center">
-                {isLoggedIn ? (
-                  <div
-                    onClick={() => setPopover(true)}
-                    className="rounded-md bg-blue-600 px-7  py-3 text-base font-medium text-white hover:bg-blue-600/90"
+              {!isLoggedIn && (
+                <div className=" hidden md:flex justify-end items-center">
+                  <Link
+                    to="/signin"
+                    className="px-7 py-3 text-base  font-medium text-white hover:text-blue-600 dark:text-white"
                   >
-                    add post
-                  </div>
-                ) : (
-                  <>
-                    <Link
-                      to="/signin"
-                      className="px-7 py-3 text-base  font-medium text-white hover:text-blue-600 dark:text-white"
-                    >
-                      Sign in
-                    </Link>
+                    Sign in
+                  </Link>
 
-                    <Link
-                      to="/signup"
-                      className="rounded-md bg-blue-600 px-7 py-3 text-base font-medium text-white hover:bg-blue-600/90"
-                    >
-                      Sign Up
-                    </Link>
-                  </>
-                )}
-              </div>
+                  <Link
+                    to="/signup"
+                    className="rounded-md bg-blue-600 px-7 py-3 text-base font-medium text-white hover:bg-blue-600/90"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
               <div
                 className="h-12 relative aspect-square rounded-full ml-7 bg-white outline outline-gray-400"
                 onClick={() => setOpen(!open)}
@@ -114,21 +105,13 @@ const Navbar = () => {
                     )}
 
                     {account ? (
-                      <>
-                        <div
-                          onClick={() => setPopover(true)}
-                          className=" py-2 text-nowrap text-base font-medium text-body-color hover:text-dark dark:text-blue-600 dark:hover:text-black inline-flex md:hidden"
-                        >
-                          add post
-                        </div>
-                        <LinkItem
-                          style="dark:text-blue-600 dark:hover:text-black"
-                          NavLink="/"
-                          onClick={() => logout()}
-                        >
-                          Logout
-                        </LinkItem>
-                      </>
+                      <LinkItem
+                        style="dark:text-blue-600 dark:hover:text-black"
+                        NavLink="/"
+                        onClick={() => logout()}
+                      >
+                        Logout
+                      </LinkItem>
                     ) : (
                       <div className="md:hidden">
                         <LinkItem
