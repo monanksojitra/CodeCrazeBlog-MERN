@@ -12,7 +12,7 @@ type FormData = {
   aboutme: string;
 };
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ setModelOpen }) => {
   const {
     updateProfile,
     account: {
@@ -46,9 +46,7 @@ const UpdateProfile = () => {
 
   const onSubmit = async (data: FormData) => {
     await updateProfile(data);
-
-    console.log(data);
-    // Handle form submission here
+    setModelOpen(false);
   };
   return (
     <>
@@ -60,13 +58,6 @@ const UpdateProfile = () => {
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   My account
                 </h6>
-                <button
-                  onClick={handleSubmit(onSubmit)}
-                  className="bg-blue-600 text-white active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                  type="button"
-                >
-                  Update
-                </button>
               </div>
             </div>
             <div className="flex-auto px-4 lg:px-10 py-7 pt-0">
@@ -116,7 +107,7 @@ const UpdateProfile = () => {
                         First Name
                       </label>
                       <InputBox
-                        error={errors.firstName?.message}
+                        error={errors.firstname?.message}
                         placeholder="Enter first name"
                         register={register("firstname", {
                           required: "First name is required",
@@ -134,7 +125,7 @@ const UpdateProfile = () => {
                         Last Name
                       </label>
                       <InputBox
-                        error={errors.lastName?.message}
+                        error={errors.lastname?.message}
                         placeholder="Enter last name"
                         register={register("lastname", {
                           required: "Last name is required",
@@ -241,6 +232,23 @@ const UpdateProfile = () => {
                       </div>
                     )}
                   </div>
+                </div>
+                <div className="flex items-center justify-center mt-3 gap-x-3">
+                  {" "}
+                  <button
+                    onClick={() => setModelOpen(false)}
+                    className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    type="button"
+                  >
+                    clear
+                  </button>
+                  <button
+                    onClick={handleSubmit(onSubmit)}
+                    className="bg-blue-600 text-white active:bg-blue-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    type="button"
+                  >
+                    Update
+                  </button>
                 </div>
               </form>
             </div>

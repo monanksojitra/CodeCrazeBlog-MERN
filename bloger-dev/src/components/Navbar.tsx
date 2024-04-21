@@ -81,7 +81,7 @@ const Navbar = () => {
                   } `}
                 ></div>
                 <div
-                  className={`absolute z-10  right-4 top-14 text-white dark:text-gray-900 rounded-lg bg-white  shadow ${
+                  className={`absolute z-50  right-4 top-14 text-white dark:text-gray-900 rounded-lg bg-white  shadow ${
                     !open && "hidden"
                   }`}
                 >

@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import InputBox from "../UI/Input";
 import { IconHome } from "@tabler/icons-react";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const { register: registerUser } = useAuth();
-  const navigat = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -17,24 +19,25 @@ const Signup = () => {
       username: "",
       password: "",
       email: "",
+      confirm_password: "",
     },
   });
 
-  const onSubmit = async (formData: { username: string; password: string }) => {
+  const onSubmit = async (formData: any) => {
     try {
       await registerUser(formData);
-      navigat("/");
-      // Redirect or do something on successful registration
+      navigate("/");
     } catch (error) {
+      console.error(error);
       // Handle registration error
+      toast.error(error?.response?.data?.message || error.message);
     }
   };
 
   return (
     <>
       <div className="container mx-auto">
-        <div className="flex  h-screen p-5 flex-wrap items-center justify-center lg:justify-between">
-          {/* Left column container with background*/}
+        <div className="flex h-screen p-5 flex-wrap items-center justify-center lg:justify-between">
           <div className="hidden lg:block mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
             <img
               src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
@@ -42,7 +45,6 @@ const Signup = () => {
               alt="Phone image"
             />
           </div>
-          {/* Right column container with form */}
           <div className="w-full md:w-8/12 lg:w-5/12 shadow-lg rounded-xl">
             <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-5 py-12 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
               <Link to="/" className="absolute top-3 right-3">
@@ -51,7 +53,7 @@ const Signup = () => {
               <div className="mb-10 text-center md:mb-16">
                 <Link
                   to="/"
-                  className="uppercase text-nowrap  text-xl font-bold mx-auto inline-block max-w-[160px]"
+                  className="uppercase text-nowrap text-xl font-bold mx-auto inline-block max-w-[160px]"
                 >
                   monak sojitra
                 </Link>
@@ -61,7 +63,11 @@ const Signup = () => {
                   type="text"
                   placeholder="Username"
                   register={register("username", {
-                    required: "username is required",
+                    required: "Username is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9]+$/,
+                      message: "Username can only contain letters and numbers",
+                    },
                   })}
                   error={errors?.username?.message || ""}
                 />
@@ -70,19 +76,40 @@ const Signup = () => {
                   placeholder="Email"
                   register={register("email", {
                     required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Invalid email address",
+                    },
                   })}
-                  error={errors?.username?.message || ""}
+                  error={errors?.email?.message || ""}
                 />
-
                 <InputBox
                   type="password"
                   placeholder="Password"
                   register={register("password", {
                     required: "Password is required",
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message:
+                        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number",
+                    },
                   })}
                   error={errors?.password?.message || ""}
                 />
-
+                <InputBox
+                  type="password"
+                  placeholder="Confirm Password"
+                  register={register("confirm_password", {
+                    required: "Confirm Password is required",
+                    validate: (value) => {
+                      if (value !== watch("password")) {
+                        return "Passwords do not match";
+                      }
+                    },
+                  })}
+                  error={errors?.confirm_password?.message || ""}
+                />
                 <div className="mb-10">
                   <button
                     type="submit"
@@ -92,7 +119,6 @@ const Signup = () => {
                   </button>
                 </div>
               </form>
-
               <Link
                 to="/forgot"
                 className="mb-2 inline-block text-base text-white hover:text-blue-600 hover:underline dark:text-black/50"

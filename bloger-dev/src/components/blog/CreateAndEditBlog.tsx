@@ -30,10 +30,10 @@ const CreateAndEditBlog = ({ modelOpen, defaultValues }) => {
 
   return (
     <>
-      <div className="flex items-center overflow-auto min-w-[30rem] justify-center p-5 w-full">
+      <div className="flex items-center overflow-auto justify-center p-5 w-full">
         <div className="mx-auto w-full max-w-[45rem] bg-white">
           <form
-            className="py-6 px-9"
+            className="p-5 lg:py-6 lg:px-9"
             onSubmit={handleSubmit(onSubmit)}
             encType="multipart/form-data"
           >
@@ -74,7 +74,7 @@ const CreateAndEditBlog = ({ modelOpen, defaultValues }) => {
               )}
             </div>
 
-            <div className="mb-3 pt-3">
+            <div className="my-3">
               <label className="mb-3 block text-xl font-semibold text-blue-600">
                 Upload File
               </label>

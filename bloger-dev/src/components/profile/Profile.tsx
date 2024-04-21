@@ -11,7 +11,7 @@ const Profile = () => {
   const [alert, setAlert] = useState(false);
   const navigator = useNavigate();
 
-  const { deleteProfile, isLoggedIn } = useAuth();
+  const { deleteProfile, isLoggedIn, account } = useAuth();
   const handelProfileDelete = async () => {
     await deleteProfile();
     setAlert(false);
@@ -25,7 +25,7 @@ const Profile = () => {
         lockScroll={true}
         onClose={() => setModelOpen(false)}
       >
-        <UpdateProfile />
+        <UpdateProfile setModelOpen={setModelOpen} />
       </Popup>
       <AlertBox
         AlertIcon={IconInfoCircle}
@@ -66,7 +66,7 @@ const Profile = () => {
                       <div className="h-40 -top-16 absolute aspect-square rounded-full">
                         <img
                           alt="..."
-                          src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg"
+                          src="https://i.pravatar.cc/300"
                           className="shadow-xl rounded-full h-full aspect-square align-middle border-none "
                         />
                       </div>
@@ -119,20 +119,27 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="text-center">
-                    <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700">
-                      Jenna Stones
+                    <h3 className="text-2xl font-semibold leading-normal text-blueGray-700">
+                      {account?.firstname + " " + account?.lastname}{" "}
                     </h3>
+                    <span className="text-lg opacity-45">
+                      {account?.username}
+                    </span>
                     <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400" />
-                      Los Angeles, California
+                      {account?.email
+                        ? account?.email
+                        : "Place Update Your Profile"}
                     </div>
                     <div className="mb-2 text-blueGray-600 mt-10">
                       <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400" />
-                      Solution Manager - Creative Tim Officer
+                      {account?.address
+                        ? account.address
+                        : "Place Update Your Profile"}
                     </div>
                     <div className="mb-2 text-blueGray-600">
                       <i className="fas fa-university mr-2 text-lg text-blueGray-400" />
-                      University of Computer Science
+                      {account?.bio ? account.bio : "Place Update Your Profile"}
                     </div>
                   </div>
                   <div className="mt-10 py-10 border-t border-blueGray-200 text-center">

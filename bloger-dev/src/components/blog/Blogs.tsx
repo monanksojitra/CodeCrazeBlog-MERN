@@ -8,7 +8,7 @@ import { IconInfoCircle } from "@tabler/icons-react";
 import Card from "./Card";
 
 const Blogs = () => {
-  const { getAllPost, posts, isLoggedIn, deletePost } = useAuth();
+  const { getAllPost, posts, isLoggedIn, deletePost, account } = useAuth();
 
   const [modelOpen, setModelOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -68,6 +68,7 @@ const Blogs = () => {
         <div className="mt-5 grid grid-cols-1 m-5 xl:grid-cols-4 gap-5">
           {posts.map((blog) => (
             <Card
+              account={account}
               setModelOpen={setModelOpen}
               handleDelete={handelDelete}
               setDefaultValues={setDefaultValues}

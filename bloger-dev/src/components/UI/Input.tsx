@@ -1,8 +1,8 @@
 type InputProps = {
   type: string;
   placeholder: string;
-  error: string;
-  register: any;
+  error?: string;
+  register?: any;
 };
 const InputBox = ({ type, placeholder, error, register }: InputProps) => {
   return (

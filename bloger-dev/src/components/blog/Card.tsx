@@ -8,6 +8,7 @@ type Props = {
   avtar: string;
   date: string;
   author: string;
+  account: object;
   postid: string;
   setDefaultValues: ({}) => void;
   setModelOpen: (boolean) => void;
@@ -19,6 +20,7 @@ const Card = ({
   handleDelete,
   coverImg,
   title,
+  account,
   description,
   avtar,
   author,
@@ -54,7 +56,7 @@ const Card = ({
         <div className="flex items-center justify-between p-6">
           <div className="flex items-center gap-x-2">
             <img
-              src={avtar}
+              src="https://i.pravatar.cc/200"
               className="relative inline-block h-9 w-9 rounded-full border-2 border-white object-cover object-center hover:z-10"
               data-tooltip-target="author-1"
             />
@@ -66,20 +68,24 @@ const Card = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-x-1">
-            <IconEdit
-              className="cursor-pointer "
-              onClick={handleEditPost}
-              color="blue"
-              size={22}
-            />
-            <IconTrash
-              className="cursor-pointer "
-              onClick={() => handleDelete(postid)}
-              color="red"
-              size={22}
-            />
-          </div>
+          {account?.username === author ? (
+            <div className="flex items-center gap-x-1">
+              <IconEdit
+                className="cursor-pointer "
+                onClick={handleEditPost}
+                color="blue"
+                size={22}
+              />
+              <IconTrash
+                className="cursor-pointer "
+                onClick={() => handleDelete(postid)}
+                color="red"
+                size={22}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>
