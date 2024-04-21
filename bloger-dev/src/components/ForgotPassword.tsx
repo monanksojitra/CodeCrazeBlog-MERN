@@ -1,35 +1,60 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputBox from "./UI/Input";
+import { IconHome } from "@tabler/icons-react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
+  const navigator = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = () => {
+    toast.success(
+      "Password reset link sent to your email {its just a test page after some time it will be done !!}"
+    );
+    navigator("/");
+  };
   return (
     <div className="container mx-auto ">
-      <div className="flex h-screen  flex-wrap items-center justify-center lg:justify-between">
+      <div className="flex h-screen  flex-wrap items-center justify-center">
         {/* Left column container with background*/}
-        <div className="hidden sm:block mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
-          <img
-            src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg?w=740&t=st=1712903368~exp=1712903968~hmac=94f1a618ac758c81e696e9e6bec96ef9aa541bc27cad4c956cc6ee980eb6a063"
-            className="w-full"
-            alt="Phone image"
-          />
+        <div className="hidden sm:block mb-12 md:mb-0 md:w-8/12 lg:w-4/12">
+          <img src="/forget.svg" className="w-full" alt="Phone image" />
         </div>
         {/* Right column container with form */}
         <div className="md:w-8/12 lg:ms-6 lg:w-5/12">
-          <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-4 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+          <div className="relative mx-auto max-w-[525px] shadow-lg overflow-hidden rounded-lg bg-white px-4 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+            <Link to="/" className="absolute top-3 right-3">
+              <IconHome className="text-gray-500 cursor-pointer" />
+            </Link>
             <div className="mb-10  flex flex-col gap-y-2 items-center justify-center md:mb-16">
               <p className="uppercase text-nowrap  text-xl font-bold">
                 Forgot Your Password?
               </p>
               <p className="text-sm font-medium text-gray-400">
-              We get it, stuff happens. Just enter your email address below and we'll send you a link to reset your password!
+                We get it, stuff happens. Just enter your email address below
+                and we'll send you a link to reset your password!
               </p>
             </div>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <InputBox
-                type="email"
-                name="email"
-                placeholder="Enter Your Email"
+                error={errors?.username?.message}
+                register={register("username", {
+                  required: "Username is required",
+                })}
+                type="username"
+                placeholder="Enter Your Username"
               />
 
               <div className="mb-10">

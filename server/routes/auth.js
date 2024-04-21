@@ -4,6 +4,7 @@ import registerUser from "../controllers/auth/register.js";
 import loginWithToken from "../controllers/auth/login-with-token.js";
 import { authorizeBearerToken } from "../middlewares/jsonwebtoken.js";
 import deleteProfile from "../controllers/auth/deleteProfile.js";
+import updateProfile from "../controllers/auth/updateProfile.js";
 
 // initialize router
 const router = express.Router();
@@ -18,5 +19,7 @@ router.post("/login", login);
 router.get("/login", [authorizeBearerToken], loginWithToken);
 
 router.delete("/profile", [authorizeBearerToken], deleteProfile);
+
+router.put("/profile", [authorizeBearerToken], updateProfile);
 
 export default router;

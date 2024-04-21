@@ -1,15 +1,52 @@
 import React from "react";
 import InputBox from "../UI/Input";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../../contexts/AuthContext";
+type FormData = {
+  firstname: string;
+  lastname: string;
+  address: string;
+  country: string;
+  postalcode: number;
+  city: string;
+  aboutme: string;
+};
 
 const UpdateProfile = () => {
+  const {
+    updateProfile,
+    account: {
+      firstname,
+      lastname,
+      address,
+      country,
+      postalcode,
+      city,
+      bio,
+      username,
+      email,
+    },
+  } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      firstname: firstname,
+      lastname: lastname,
+      address: address,
+      country: country,
+      postalcode: postalcode,
+      city: city,
+      aboutme: bio,
+    },
+  });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data: FormData) => {
+    await updateProfile(data);
+
     console.log(data);
     // Handle form submission here
   };
@@ -46,13 +83,11 @@ const UpdateProfile = () => {
                       >
                         Username
                       </label>
-                      <InputBox
-                        error={errors.username?.message}
-                        placeholder="Enter username"
-                        register={register("username", {
-                          required: "Username is required",
-                        })}
+                      <input
+                        disabled
+                        value={username}
                         type="text"
+                        className="w-full bg-slate-200 rounded-md border border-stroke bg-transparent px-5 py-3 text-base text-body-color outline-none  focus-visible:shadow-none dark:border-dark-3 dark:text-black "
                       />
                     </div>
                   </div>
@@ -64,16 +99,10 @@ const UpdateProfile = () => {
                       >
                         Email address
                       </label>
-                      <InputBox
-                        error={errors.email?.message}
-                        placeholder="Enter email"
-                        register={register("email", {
-                          required: "Email is required",
-                          pattern: {
-                            value: /^\S+@\S+$/i,
-                            message: "Invalid email address",
-                          },
-                        })}
+                      <input
+                        value={email}
+                        disabled
+                        className="w-full bg-slate-200 rounded-md border border-stroke bg-transparent px-5 py-3 text-base text-body-color outline-none  focus-visible:shadow-none dark:border-dark-3 dark:text-black "
                         type="email"
                       />
                     </div>
@@ -89,7 +118,7 @@ const UpdateProfile = () => {
                       <InputBox
                         error={errors.firstName?.message}
                         placeholder="Enter first name"
-                        register={register("firstName", {
+                        register={register("firstname", {
                           required: "First name is required",
                         })}
                         type="text"
@@ -107,7 +136,7 @@ const UpdateProfile = () => {
                       <InputBox
                         error={errors.lastName?.message}
                         placeholder="Enter last name"
-                        register={register("lastName", {
+                        register={register("lastname", {
                           required: "Last name is required",
                         })}
                         type="text"

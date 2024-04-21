@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import InputBox from "./UI/Input";
+import { useAuth } from "../../contexts/AuthContext";
+import InputBox from "../UI/Input";
+import { IconHome } from "@tabler/icons-react";
 
 const Signup = () => {
   const { register: registerUser } = useAuth();
@@ -32,9 +33,9 @@ const Signup = () => {
   return (
     <>
       <div className="container mx-auto">
-        <div className="flex h-screen p-5 flex-wrap items-center justify-center lg:justify-between">
+        <div className="flex  h-screen p-5 flex-wrap items-center justify-center lg:justify-between">
           {/* Left column container with background*/}
-          <div className="hidden md:block mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
+          <div className="hidden lg:block mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
             <img
               src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
               className="w-full"
@@ -42,11 +43,11 @@ const Signup = () => {
             />
           </div>
           {/* Right column container with form */}
-          <div className="w-full md:w-8/12 lg:ms-6 lg:w-5/12">
-            <Link to="/" className="flex items-center justify-end gap-x-1 p-5">
-              {/* Add your back button SVG here */}
-            </Link>
-            <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-4 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+          <div className="w-full md:w-8/12 lg:w-5/12 shadow-lg rounded-xl">
+            <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-5 py-12 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+              <Link to="/" className="absolute top-3 right-3">
+                <IconHome className="text-gray-500 cursor-pointer" />
+              </Link>
               <div className="mb-10 text-center md:mb-16">
                 <Link
                   to="/"

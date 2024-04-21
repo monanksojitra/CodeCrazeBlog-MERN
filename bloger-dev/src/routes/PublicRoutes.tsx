@@ -1,8 +1,8 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Signin from "../components/Signin";
-import Signup from "../components/Signup";
+import Signin from "../components/auth/Signin";
+import Signup from "../components/auth/Signup";
 
 const PublicRoutes = createBrowserRouter([
   {

@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import InputBox from "./UI/Input";
-import { useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import InputBox from "../UI/Input";
+import { IconHome } from "@tabler/icons-react";
 
 const Signin = () => {
   const { login: loginUser } = useAuth();
@@ -29,10 +29,11 @@ const Signin = () => {
     <section className="container mx-auto bg-slate-50">
       <div className="flex flex-wrap items-center justify-center h-screen">
         <div className="w-full px-4">
-          <Link to="/" className="flex items-center justify-end gap-x-1">
-            {/* Add your back button SVG here */}
-          </Link>
-          <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+          {" "}
+          <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px] shadow-lg">
+            <Link to="/" className="absolute top-3 right-3">
+              <IconHome className="text-gray-500 cursor-pointer" />
+            </Link>
             <div className="mb-10 text-center md:mb-16">
               <Link
                 to="/"

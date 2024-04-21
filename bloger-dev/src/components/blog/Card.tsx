@@ -1,4 +1,5 @@
 import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { useAuth } from "../../contexts/AuthContext";
 
 type Props = {
   coverImg: string;
@@ -36,9 +37,13 @@ const Card = ({
     <>
       <div className="relative flex max-w-[24rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
         <div className="relative m-0 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none">
-          <img src={coverImg} alt="cover Image" className="object-contain" />
+          <img
+            src={coverImg}
+            alt="cover Image"
+            className="object-cover aspect-square"
+          />
         </div>
-        <div className="p-6">
+        <div className="px-6 py-3  lg:p-6">
           <h4 className="block font-sans text-base font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
             {title}
           </h4>
@@ -60,6 +65,7 @@ const Card = ({
               </p>
             </div>
           </div>
+
           <div className="flex items-center gap-x-1">
             <IconEdit
               className="cursor-pointer "

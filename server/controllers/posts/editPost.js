@@ -6,8 +6,11 @@ const updatePost = async (req, res) => {
     params: { id },
     body: { title, description },
     file: { path },
+    auth: { uid },
   } = req;
 
+  const { filename, author } = await Post.findOne({ _id: id });
+  if (uid !== author) return res.status(400).json({ message: "Unauthorized" });
   if (!id) return res.status(400).json({ message: "Id is required" });
   if (!title || !description)
     return res
@@ -15,8 +18,6 @@ const updatePost = async (req, res) => {
       .json({ message: "title and description are required" });
   if (!path)
     return res.status(400).json({ message: "Cover image is required" });
-
-  const { filename } = await Post.findOne({ _id: id });
 
   const { result } = await deleteFile(filename);
 

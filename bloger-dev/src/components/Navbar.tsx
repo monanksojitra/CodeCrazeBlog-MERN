@@ -34,7 +34,9 @@ const Navbar = () => {
                   <LinkItem NavLink="/">Home</LinkItem>
                   <LinkItem NavLink="/blogs">Blogs</LinkItem>
                   <LinkItem NavLink="/about">About</LinkItem>
-                  <LinkItem NavLink="/profile">Profile</LinkItem>
+                  {isLoggedIn && (
+                    <LinkItem NavLink="/profile">Profile</LinkItem>
+                  )}
                 </ul>
               </nav>
             </div>
@@ -71,7 +73,7 @@ const Navbar = () => {
               >
                 <img
                   src="https://i.pravatar.cc/300"
-                  className="rounded-full "
+                  className="rounded-full cursor-pointer"
                 />
                 <div
                   className={`absolute  bottom-0 right-0 h-3 w-3 rounded-full ${
@@ -102,12 +104,14 @@ const Navbar = () => {
                     >
                       About
                     </LinkItem>
-                    <LinkItem
-                      style="dark:text-gray-900 lg:hidden"
-                      NavLink="/profile"
-                    >
-                      Profile
-                    </LinkItem>
+                    {isLoggedIn && (
+                      <LinkItem
+                        style="dark:text-gray-900 lg:hidden"
+                        NavLink="/profile"
+                      >
+                        Profile
+                      </LinkItem>
+                    )}
 
                     {account ? (
                       <>

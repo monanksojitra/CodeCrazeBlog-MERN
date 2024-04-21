@@ -1,12 +1,12 @@
 import {
+  ReactNode,
   createContext,
   useContext,
-  useState,
   useEffect,
-  ReactNode,
+  useState,
 } from "react";
-import axios from "../utils/axios";
 import { toast } from "react-toastify";
+import axios from "../utils/axios";
 
 // Define the shape of the account object
 interface Account {
@@ -27,6 +27,7 @@ interface AuthContextValue {
   deletePost: (postid: string) => void;
   updateBlog: (formData: any, postId: string) => void;
   deleteProfile: () => void;
+  updateProfile: (formData: any) => void;
 }
 
 // Define the shape of the props for the AuthProvider component
@@ -51,7 +52,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setAccount(accountData);
       setToken(accessToken);
       setIsLoggedIn(true);
-      toast.success("Account created successfully");
       return true;
     } catch (error) {
       console.error(error);
@@ -67,7 +67,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setAccount(accountData);
       setToken(accessToken);
       setIsLoggedIn(true);
-      toast.success("Login successful");
       return true;
     } catch (error) {
       console.error(error);
@@ -79,14 +78,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoggedIn(false);
     setAccount(null);
     setToken(null);
-    toast.success("Logout successful");
+  };
+
+  const updateProfile = (formData: any) => {
+    axios
+      .put("/auth/profile", formData)
+      .then((response) => {
+        setAccount(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error(error?.response?.data?.message || error.message);
+      });
   };
 
   const deleteProfile = () => {
     axios
       .delete("/auth/profile")
       .then((response) => {
-        toast.success("Profile deleted successfully");
         logout();
       })
       .catch((error) => {
@@ -95,11 +104,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
   };
   const getAllPost = () => {
+    if (!token) {
+      toast.error("Please Login First");
+      return null;
+    }
     axios
       .get("/post")
       .then(({ data: { posts } }) => {
         setPosts(posts);
-        toast.success("Blog fetched successfully");
       })
       .catch((error) => {
         console.error(error);
@@ -114,7 +126,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
       })
       .then((response) => {
-        toast.success("Blog created successfully");
         getAllPost();
       })
       .catch((error) => {
@@ -131,7 +142,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
       })
       .then((response) => {
-        toast.success("Blog updated successfully");
         getAllPost();
       })
       .catch((error) => {
@@ -143,7 +153,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     axios
       .delete(`/post/${postid}`)
       .then((response) => {
-        toast.success("Blog deleted successfully");
         getAllPost();
       })
       .catch((error) => {
@@ -152,12 +161,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
   };
   useEffect(() => {
-    if (token) {
+    if (token && account) {
       localStorage.setItem("token", token);
+      localStorage.setItem("account", JSON.stringify(account));
     } else {
       localStorage.removeItem("token");
+      localStorage.removeItem("account");
     }
-  }, [token]);
+  }, [token, account]);
 
   // Additional logic for handling token-based login on app load
   useEffect(() => {
@@ -198,6 +209,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         deletePost,
         updateBlog,
         deleteProfile,
+        updateProfile,
         posts,
       }}
     >
