@@ -10,7 +10,7 @@ import axios from "../utils/axios";
 
 // Define the shape of the account object
 interface Account {
-  // Define account properties here
+  _id: string;
 }
 
 // Define the shape of the context
@@ -49,7 +49,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const {
         data: { token, data: accountData },
       } = await axios.post("/auth/register", formData);
-      console.log(token);
       setAccount(accountData);
       setToken(token);
       setIsLoggedIn(true);

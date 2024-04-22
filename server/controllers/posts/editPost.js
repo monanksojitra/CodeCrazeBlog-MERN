@@ -23,7 +23,6 @@ const updatePost = async (req, res) => {
     if (!post) return res.status(404).json({ message: "Post not found" });
     if (post.author.toString() !== uid)
       return res.status(403).json({ message: "Unauthorized" });
-    console.log(post.filename);
     const { result } = await deleteFile(post.filename);
     if (result !== "ok")
       return res.status(500).json({ message: "Failed to delete the old file" });

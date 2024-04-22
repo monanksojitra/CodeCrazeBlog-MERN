@@ -1,18 +1,11 @@
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
-  cloud_name: "dqtahkpi4",
-  api_key: "454875975863887",
-  api_secret: "_TUQHtRT6osCMgGWq-d5M7AfpBk",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-//   secure: true,
-// });
 // Utility function to handle Cloudinary uploads
 const uploadFile = async ({ path, folder }) => {
   try {

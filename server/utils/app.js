@@ -1,18 +1,34 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { json, urlencoded } from "express";
+
 dotenv.config();
 const app = express();
 
-// middlewares
-app.use(cors());
-app.use(express.json()); // body parser
-app.use(express.urlencoded({ extended: false })); // url parser
+// Middleware setup
+app.use(
+  cors({
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
-// error handling
+app.use(json()); // Body parser
+app.use(urlencoded({ extended: false })); // URL parser
+
+// Routes and other middleware should be defined here
+// For example:
+// app.use('/api', apiRoutes);
+
+// Error handling middleware
 app.use((err, req, res, next) => {
-  console.error("this is error : ", err);
-  res.status(500).send();
-  next();
+  console.error("Error:", err);
+  res.status(500).json({
+    status: "error",
+    message: err.message,
+    path: req.path,
+  });
 });
+
 export default app;
