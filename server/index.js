@@ -6,11 +6,11 @@ import app from "./utils/app.js";
 
 connectDB();
 // app.use("/", getProperty);
-app.use("/api/v1/auth", authRoutes);
+app.use("/auth", authRoutes);
 app.get("/", (req, res) => {
   return res.send("Hello World");
 });
-app.use("/api/v1/post", [authorizeBearerToken], postRoutes);
+app.use("/post", [authorizeBearerToken], postRoutes);
 
 const PORT = process.env.PORT || 5000;
 
