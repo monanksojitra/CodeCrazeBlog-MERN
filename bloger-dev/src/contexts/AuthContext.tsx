@@ -105,7 +105,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
   };
   const getAllPost = () => {
-    if (!token || token === "null" || !isLoggedIn) {
+    if (!token || !isLoggedIn) {
       return null;
     }
     axios

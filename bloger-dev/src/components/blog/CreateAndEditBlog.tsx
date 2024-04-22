@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import InputBox from "../UI/Input";
 
-const CreateAndEditBlog = ({ modelOpen, defaultValues }) => {
+const CreateAndEditBlog = ({ modelOpen, defaultValues, setDefaultValues }) => {
   const { addNewPost, updateBlog } = useAuth();
   const {
     register,
@@ -21,9 +21,11 @@ const CreateAndEditBlog = ({ modelOpen, defaultValues }) => {
 
     if (!defaultValues._id) {
       await addNewPost(formData);
+      setDefaultValues({});
       modelOpen(false);
     } else {
       await updateBlog(formData, defaultValues._id);
+      setDefaultValues({});
       modelOpen(false);
     }
   };

@@ -21,7 +21,7 @@ const createPost = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const result = await uploadFile({ path, folderName: "covers" });
+    const result = await uploadFile({ path, folder: "covers" });
     if (!result) {
       return res.status(500).json({ message: "Failed to upload file" });
     }

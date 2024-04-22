@@ -31,6 +31,7 @@ const Blogs = () => {
         <CreateAndEditBlog
           modelOpen={setModelOpen}
           defaultValues={defaultValues}
+          setDefaultValues={setDefaultValues}
         />
       </Popup>
 
