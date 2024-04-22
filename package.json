@@ -10,7 +10,7 @@
   "author": "Ben Elferink <ben.elferink@icloud.com> (https://www.linkedin.com/in/ben-elferink-37ba251b9)",
   "scripts": {
     "install": "concurrently \"cd ./server && npm i\" \"cd ./client && npm i\"",
-    "start": "concurrently \"cd ./server && npm start\" \"cd ./bloger-dev && npm run dev\"",
+    "start": "concurrently \"cd ./server && npm dev\" \"cd ./bloger-dev && npm run dev\"",
     "delete-modules": "rm -r ./node_modules && cd ./server && rm -r ./node_modules && cd ../client && rm -r ./node_modules"
   },
   "devDependencies": {

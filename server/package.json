@@ -5,7 +5,8 @@
   "main": "index.jsx",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon index.jsx || node index.jsx"
+    "start": "node index.jsx",
+    "dev": "nodemon index.jsx"
   },
   "type": "module",
   "dependencies": {
