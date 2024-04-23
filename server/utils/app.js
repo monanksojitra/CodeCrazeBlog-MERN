@@ -9,6 +9,9 @@ const app = express();
 // Middleware setup
 app.use(
   cors({
+    origin: `https://code-craze-blog-mern.vercel.app:${
+      process.env.PORT || 3000
+    }`,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

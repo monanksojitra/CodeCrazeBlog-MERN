@@ -8,7 +8,7 @@ const getToken = () => {
 
 // Axios instance with custom configuration
 const api = axios.create({
-  baseURL: "https://code-craze-blog-mern.vercel.app/api/v1/",
+  baseURL: "https://code-craze-blog-mern.vercel.app/",
 });
 
 // Request interceptor to add JWT token to headers
