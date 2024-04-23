@@ -7,15 +7,7 @@ dotenv.config();
 const app = express();
 
 // Middleware setup
-app.use(
-  cors({
-    origin: `https://code-craze-blog-mern.vercel.app:${
-      process.env.PORT || 3000
-    }`,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(json()); // Body parser
 app.use(urlencoded({ extended: false })); // URL parser
