@@ -6,7 +6,7 @@ type Props = {
   confirmButtonCss?: string;
   confirmButtonText?: string;
   alertOpen: boolean;
-  setAlertOpen: (boolean) => void;
+  setAlertOpen: (alertOpen: boolean) => void;
   AlertIcon: any;
   alertCss?: string;
   accept: () => void;

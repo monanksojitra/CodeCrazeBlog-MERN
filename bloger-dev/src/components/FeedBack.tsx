@@ -1,5 +1,3 @@
-import React from "react";
-
 const FeedBack = () => {
   return (
     <section className=" mx-auto container bg-white dark:bg-gray-900">

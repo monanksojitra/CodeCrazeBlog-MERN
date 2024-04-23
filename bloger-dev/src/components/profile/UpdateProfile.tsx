@@ -1,4 +1,3 @@
-import React from "react";
 import InputBox from "../UI/Input";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
@@ -12,7 +11,7 @@ type FormData = {
   aboutme: string;
 };
 
-const UpdateProfile = ({ setModelOpen }) => {
+const UpdateProfile = ({ setModelOpen }: { setModelOpen: boolean }) => {
   const {
     updateProfile,
     account: {

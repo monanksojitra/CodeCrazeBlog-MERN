@@ -1,5 +1,3 @@
-import React from "react";
-
 const Information = () => {
   return (
     <section className="container mx-auto bg-white dark:bg-gray-900 py-10">

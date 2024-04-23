@@ -4,7 +4,7 @@ import {
   IconBrandInstagram,
   IconBrandLinkedin,
 } from "@tabler/icons-react";
-import React from "react";
+
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 

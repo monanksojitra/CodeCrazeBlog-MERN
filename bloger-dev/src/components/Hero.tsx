@@ -1,5 +1,3 @@
-import React from "react";
-
 const Hero = () => {
   return (
     <div className="bg-white relative dark:bg-gray-900 pt-5 md:py-10 h-full">

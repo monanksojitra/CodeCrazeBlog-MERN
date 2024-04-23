@@ -1,9 +1,8 @@
+import { IconHome } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import InputBox from "../UI/Input";
-import { IconHome } from "@tabler/icons-react";
-import { toast } from "react-toastify";
 
 const Signup = () => {
   const { register: registerUser } = useAuth();
@@ -29,8 +28,6 @@ const Signup = () => {
       navigate("/");
     } catch (error) {
       console.error(error);
-      // Handle registration error
-      toast.error(error?.response?.data?.message || error.message);
     }
   };
 

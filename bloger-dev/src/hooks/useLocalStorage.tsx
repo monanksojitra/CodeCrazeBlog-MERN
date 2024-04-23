@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 
 /* How to use this hook:
 import useLocalStorage from './hooks/useLocalStorage';
@@ -9,12 +9,14 @@ function App() {
   return ();
 }; */
 
-export default function useLocalStorage(key = '', defaultValue = null) {
-  const [value, setValue] = useState(JSON.parse(localStorage.getItem(key)) || defaultValue)
+export default function useLocalStorage(key = "", defaultValue = null) {
+  const [value, setValue] = useState(
+    JSON.parse(localStorage.getItem(key) as string) || defaultValue
+  );
 
   useEffect(() => {
-    if (value != null) localStorage.setItem(key, JSON.stringify(value))
-  }, [key, value])
+    if (value != null) localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
 
-  return [value, setValue]
+  return [value, setValue];
 }

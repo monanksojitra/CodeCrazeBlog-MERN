@@ -1,5 +1,3 @@
-import React from "react";
-
 const Explore = () => {
   return (
     <>
@@ -7,7 +5,6 @@ const Explore = () => {
       <section className="bg-white w-full dark:bg-gray-900">
         <div className="container max-w-7xl px-6 py-20 mx-auto">
           <div className="lg:flex lg:items-center">
-          
             <div className="hidden lg:flex lg:items-center lg:w-1/2 lg:justify-center">
               <img
                 className="w-[28rem] h-[28rem] object-cover xl:w-[34rem] xl:h-[34rem] rounded-full"

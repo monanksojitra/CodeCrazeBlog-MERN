@@ -10,7 +10,15 @@ import axios from "../utils/axios";
 
 // Define the shape of the account object
 interface Account {
-  _id: string;
+  firstname: string;
+  lastname: string;
+  address: string;
+  country: string;
+  postalcode: number;
+  city: string;
+  bio: string;
+  username: string;
+  email: string;
 }
 
 // Define the shape of the context
@@ -44,7 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.getItem("token") || null
   );
   const [posts, setPosts] = useState([]);
-  const register = async (formData: any): Promise<boolean> => {
+  const register = async (formData: any) => {
     try {
       const {
         data: { token, data: accountData },
@@ -55,11 +63,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return true;
     } catch (error) {
       console.error(error);
-      throw new Error(error?.response?.data?.message || error.message);
     }
   };
 
-  const login = async (formData: any): Promise<boolean> => {
+  const login = async (formData: any) => {
     try {
       const {
         data: { data: accountData, token: accessToken },
@@ -70,7 +77,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return true;
     } catch (error) {
       console.error(error);
-      throw new Error(error?.response?.data?.message || error.message);
     }
   };
 
@@ -190,6 +196,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
+      //ingnore 401 error type
+
       if (error?.response?.status === 401) setToken(null);
     }
   };

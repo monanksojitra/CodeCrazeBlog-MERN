@@ -1,5 +1,5 @@
 // index.js
-import React from "react";
+
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -35,7 +35,9 @@ const MainRoutes = () => {
   );
 };
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 root.render(
   <>
     <ToastContainer
@@ -45,12 +47,10 @@ root.render(
       pauseOnFocusLoss={false}
       pauseOnHover={false}
     />
-    <React.StrictMode>
-      <AuthProvider>
-        <BrowserRouter>
-          <MainRoutes />
-        </BrowserRouter>
-      </AuthProvider>
-    </React.StrictMode>
+    <AuthProvider>
+      <BrowserRouter>
+        <MainRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   </>
 );

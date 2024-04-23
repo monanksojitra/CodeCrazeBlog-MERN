@@ -18,7 +18,7 @@ const Blogs = () => {
     setDefaultValues({ _id: id });
   };
   const confirmDelete = () => {
-    deletePost(defaultValues._id as string);
+    deletePost(defaultValues._id);
     setAlertOpen(false);
     setDefaultValues({});
   };
