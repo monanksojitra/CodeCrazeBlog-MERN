@@ -7,7 +7,12 @@ dotenv.config();
 const app = express();
 
 // Middleware setup
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173/",
+    credentials: true,
+  })
+);
 
 app.use(json()); // Body parser
 app.use(urlencoded({ extended: false })); // URL parser
