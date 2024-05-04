@@ -1,7 +1,13 @@
+import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+
 type InputProps = {
   type: string;
   placeholder: string;
-  error?: string;
+  error?:
+    | string
+    | FieldError
+    | Merge<FieldError, FieldErrorsImpl<any>>
+    | undefined;
   register?: any;
 };
 const InputBox = ({ type, placeholder, error, register }: InputProps) => {
@@ -15,7 +21,7 @@ const InputBox = ({ type, placeholder, error, register }: InputProps) => {
       />
       {error && (
         <span className="text-red-500 flex items-start justify-start text-sm">
-          {error}
+          {error as any}
         </span>
       )}
     </div>

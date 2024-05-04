@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import LinkItem from "./UI/LinkItem";
+import Popup from "reactjs-popup";
 import { useAuth } from "../contexts/AuthContext";
 import CreateBlog from "./CreateBlog";
-import Popup from "reactjs-popup";
+import LinkItem from "./UI/LinkItem";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);

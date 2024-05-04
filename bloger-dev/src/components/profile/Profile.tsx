@@ -1,17 +1,24 @@
+import { IconInfoCircle } from "@tabler/icons-react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
-import UpdateProfile from "./UpdateProfile";
-import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import AlertBox from "../UI/AlertBox";
-import { IconInfoCircle } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
+import UpdateProfile from "./UpdateProfile";
 
 const Profile = () => {
-  const [modelOpen, setModelOpen] = useState(false);
+  const [modelOpen, setModelOpen] =
+    useState<Dispatch<SetStateAction<boolean>>>();
   const [alert, setAlert] = useState(false);
   const navigator = useNavigate();
 
   const { deleteProfile, isLoggedIn, account } = useAuth();
+  if (!account) {
+    // Handle the case where account is null, for example:
+    return <div>Loading...</div>; // Or whatever is appropriate for your UI
+  }
+
+  const { firstname, lastname, address, bio, username, email } = account;
   const handelProfileDelete = async () => {
     await deleteProfile();
     setAlert(false);
@@ -23,7 +30,7 @@ const Profile = () => {
         modal
         open={modelOpen}
         lockScroll={true}
-        onClose={() => setModelOpen(false)}
+        onClose={() => setModelOpen(false as any)}
       >
         <UpdateProfile setModelOpen={setModelOpen} />
       </Popup>
@@ -74,7 +81,7 @@ const Profile = () => {
                     <div className="w-full lg:w-4/12 px-4  lg:order-3 lg:text-right lg:self-center">
                       <div className="pt-10  px-3 flex-col gap-2 sm:flex-row lg:pt-0 flex items-center justify-center">
                         <button
-                          onClick={() => setModelOpen(true)}
+                          onClick={() => setModelOpen(true as any)}
                           className="bg-blue-600  active:bg-blue-400 uppercase text-white font-bold hover:shadow-md shadow text-xs px-6 h-8 rounded outline-none focus:outline-none ease-linear transition-all duration-150 text-nowrap"
                           type="button"
                         >
@@ -120,26 +127,20 @@ const Profile = () => {
                   </div>
                   <div className="text-center">
                     <h3 className="text-2xl font-semibold leading-normal text-blueGray-700">
-                      {account?.firstname + " " + account?.lastname}{" "}
+                      {firstname + " " + lastname}{" "}
                     </h3>
-                    <span className="text-lg opacity-45">
-                      {account?.username}
-                    </span>
+                    <span className="text-lg opacity-45">{username}</span>
                     <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400" />
-                      {account?.email
-                        ? account?.email
-                        : "Place Update Your Profile"}
+                      {email ? email : "Place Update Your Profile"}
                     </div>
                     <div className="mb-2 text-blueGray-600 mt-10">
                       <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400" />
-                      {account?.address
-                        ? account.address
-                        : "Place Update Your Profile"}
+                      {address ? address : "Place Update Your Profile"}
                     </div>
                     <div className="mb-2 text-blueGray-600">
                       <i className="fas fa-university mr-2 text-lg text-blueGray-400" />
-                      {account?.bio ? account.bio : "Place Update Your Profile"}
+                      {bio ? bio : "Place Update Your Profile"}
                     </div>
                   </div>
                   <div className="mt-10 py-10 border-t border-blueGray-200 text-center">

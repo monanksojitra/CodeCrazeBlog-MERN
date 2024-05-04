@@ -1,4 +1,4 @@
-import {
+import React, {
   ReactNode,
   createContext,
   useContext,
@@ -32,7 +32,7 @@ interface AuthContextValue {
   addNewPost: (formData: any) => void;
   getAllPost: () => void;
   posts: object[];
-  deletePost: (postid: string) => void;
+  deletePost: (postId: string) => void;
   updateBlog: (formData: any, postId: string) => void;
   deleteProfile: () => void;
   updateProfile: (formData: any) => void;
@@ -42,6 +42,7 @@ interface AuthContextValue {
 interface AuthProviderProps {
   children: ReactNode;
 }
+
 // Create the context
 const AuthContext = createContext<AuthContextValue | null>(null);
 
@@ -51,8 +52,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token") || null
   );
-  const [posts, setPosts] = useState([]);
-  const register = async (formData: any) => {
+  const [posts, setPosts] = useState<object[]>([]);
+
+  const register = async (formData: any): Promise<boolean> => {
     try {
       const {
         data: { token, data: accountData },
@@ -63,10 +65,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
 
-  const login = async (formData: any) => {
+  const login = async (formData: any): Promise<boolean> => {
     try {
       const {
         data: { data: accountData, token: accessToken },
@@ -77,6 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
 
@@ -101,7 +105,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const deleteProfile = () => {
     axios
       .delete("/auth/profile")
-      .then((response) => {
+      .then(() => {
         logout();
       })
       .catch((error) => {
@@ -109,6 +113,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         toast.error(error?.response?.data?.message || error.message);
       });
   };
+
   const getAllPost = () => {
     if (!token || !isLoggedIn) {
       return null;
@@ -123,6 +128,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         toast.error(error?.response?.data?.message || error.message);
       });
   };
+
   const addNewPost = (formData: any) => {
     axios
       .post("/post/add", formData, {
@@ -130,7 +136,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => {
+      .then(() => {
         getAllPost();
       })
       .catch((error) => {
@@ -146,7 +152,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => {
+      .then(() => {
         getAllPost();
       })
       .catch((error) => {
@@ -154,10 +160,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         toast.error(error?.response?.data?.message || error.message);
       });
   };
-  const deletePost = (postid: string) => {
+
+  const deletePost = (postId: string) => {
     axios
-      .delete(`/post/${postid}`)
-      .then((response) => {
+      .delete(`/post/${postId}`)
+      .then(() => {
         getAllPost();
       })
       .catch((error) => {
@@ -165,6 +172,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         toast.error(error?.response?.data?.message || error.message);
       });
   };
+
   useEffect(() => {
     if (token && account) {
       localStorage.setItem("token", token);
@@ -194,10 +202,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setAccount(accountData);
       setToken(accessToken);
       setIsLoggedIn(true);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      //ingnore 401 error type
-
       if (error?.response?.status === 401) setToken(null);
     }
   };
@@ -225,7 +231,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextValue => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");

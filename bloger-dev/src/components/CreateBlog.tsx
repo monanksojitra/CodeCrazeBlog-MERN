@@ -1,9 +1,13 @@
 import { useForm } from "react-hook-form";
 import InputBox from "./UI/Input";
 import { useAuth } from "../contexts/AuthContext";
+import { Dispatch, SetStateAction } from "react";
 
-
-const CreateBlog = ({ setPopover }) => {
+const CreateBlog = ({
+  setPopover,
+}: {
+  setPopover: Dispatch<SetStateAction<boolean>>;
+}) => {
   const { addNewPost } = useAuth();
   const {
     register,
@@ -18,7 +22,7 @@ const CreateBlog = ({ setPopover }) => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);

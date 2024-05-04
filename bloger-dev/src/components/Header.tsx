@@ -1,17 +1,6 @@
-import { List, ListItemButton, ListSubheader, Popover } from "@mui/material";
-import { Fragment, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import AuthModal from "./AuthModal";
-
 export default function Header() {
-  const { isLoggedIn, account, logout } = useAuth();
-
-  const [popover, setPopover] = useState(false);
-  const [authModal, setAuthModal] = useState(false);
-  const [register, setRegister] = useState(false);
-
-
-  return (<></>
+  return (
+    <></>
     // <div className="flex items-center mx-auto h-20  justify-between container px-10 bg-black text-white">
     //   <h1 className="text-3xl font-bold ">{account?.username || "Guest"}</h1>
     //   <div onClick={togglePopover} className="bg-white flex items-center justify-center relative h-12 aspect-square rounded-full">

@@ -1,5 +1,4 @@
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { useAuth } from "../../contexts/AuthContext";
 
 type Props = {
   coverImg: string;
@@ -8,11 +7,11 @@ type Props = {
   avtar: string;
   date: string;
   author: string;
-  account: object;
+  account: object | any;
   postid: string;
   setDefaultValues: ({}) => void;
-  setModelOpen: (boolean) => void;
-  handleDelete: (postid) => void;
+  setModelOpen: (boolean: boolean) => void;
+  handleDelete: (postid: string) => void;
 };
 const Card = ({
   setModelOpen,
@@ -22,7 +21,6 @@ const Card = ({
   title,
   account,
   description,
-  avtar,
   author,
   date,
   postid,
@@ -35,6 +33,12 @@ const Card = ({
       _id: postid,
     });
   };
+  if (!account) {
+    // Handle the case where account is null, for example:
+    return <div>Loading...</div>; // Or whatever is appropriate for your UI
+  }
+
+  const { username } = account;
   return (
     <>
       <div className="relative flex max-w-[24rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
@@ -68,7 +72,7 @@ const Card = ({
             </div>
           </div>
 
-          {account?.username === author ? (
+          {username === author ? (
             <div className="flex items-center gap-x-1">
               <IconEdit
                 className="cursor-pointer "

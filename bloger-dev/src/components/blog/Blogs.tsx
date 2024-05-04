@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import "./blog.css";
-import { useAuth } from "../../contexts/AuthContext";
-import Popup from "reactjs-popup";
-import CreateAndEditBlog from "./CreateAndEditBlog";
-import AlertBox from "../UI/AlertBox";
 import { IconInfoCircle } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import Popup from "reactjs-popup";
+import { useAuth } from "../../contexts/AuthContext";
+import AlertBox from "../UI/AlertBox";
 import Card from "./Card";
+import CreateAndEditBlog from "./CreateAndEditBlog";
+import "./blog.css";
 
 const Blogs = () => {
   const { getAllPost, posts, isLoggedIn, deletePost, account } = useAuth();
 
   const [modelOpen, setModelOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [defaultValues, setDefaultValues] = useState({});
+  const [defaultValues, setDefaultValues] = useState<any>();
   const handelDelete = (id: string) => {
     setAlertOpen(true);
     setDefaultValues({ _id: id });
@@ -68,7 +68,7 @@ const Blogs = () => {
       )}
       {isLoggedIn ? (
         <div className="mt-5 grid grid-cols-1 m-5 xl:grid-cols-4 gap-5">
-          {posts.map((blog) => (
+          {posts.map((blog: any) => (
             <Card
               account={account}
               setModelOpen={setModelOpen}

@@ -11,21 +11,24 @@ type FormData = {
   aboutme: string;
 };
 
-const UpdateProfile = ({ setModelOpen }: { setModelOpen: boolean }) => {
+const UpdateProfile = ({ setModelOpen }: { setModelOpen: any }) => {
+  const { updateProfile, account } = useAuth();
+  if (!account) {
+    // Handle the case where account is null, for example:
+    return <div>Loading...</div>; // Or whatever is appropriate for your UI
+  }
+
   const {
-    updateProfile,
-    account: {
-      firstname,
-      lastname,
-      address,
-      country,
-      postalcode,
-      city,
-      bio,
-      username,
-      email,
-    },
-  } = useAuth();
+    firstname,
+    lastname,
+    address,
+    country,
+    postalcode,
+    city,
+    bio,
+    username,
+    email,
+  } = account;
   const {
     register,
     handleSubmit,

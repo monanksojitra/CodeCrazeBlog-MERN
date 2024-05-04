@@ -1,8 +1,17 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import InputBox from "../UI/Input";
-
-const CreateAndEditBlog = ({ modelOpen, defaultValues, setDefaultValues }) => {
+import { Dispatch, SetStateAction } from "react";
+type Props = {
+  modelOpen: Dispatch<SetStateAction<boolean>>;
+  defaultValues: any;
+  setDefaultValues: Dispatch<SetStateAction<any>>;
+};
+const CreateAndEditBlog = ({
+  modelOpen,
+  defaultValues,
+  setDefaultValues,
+}: Props) => {
   const { addNewPost, updateBlog } = useAuth();
   const {
     register,
@@ -13,13 +22,13 @@ const CreateAndEditBlog = ({ modelOpen, defaultValues, setDefaultValues }) => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("file", data.file[0]);
-
-    if (!defaultValues._id) {
+    console.log(defaultValues);
+    if (!defaultValues) {
       await addNewPost(formData);
       setDefaultValues({});
       modelOpen(false);
