@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Popup from "reactjs-popup";
+import { Popup } from "reactjs-popup";
 import { useAuth } from "../contexts/AuthContext";
 import CreateBlog from "./CreateBlog";
 import LinkItem from "./UI/LinkItem";
