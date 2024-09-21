@@ -24,9 +24,8 @@ Welcome to the MERN Stack Blogger Site! This project is a simple blogging platfo
 
 - **Frontend:**
   - React
-  - Redux (for state management)
   - Axios (for API calls)
-  - CSS / Styled Components
+  - Tailwind css Styled Components
 
 - **Backend:**
   - Node.js
