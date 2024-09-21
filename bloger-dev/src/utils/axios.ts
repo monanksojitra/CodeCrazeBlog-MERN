@@ -8,7 +8,8 @@ const getToken = () => {
 
 // Axios instance with custom configuration
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL:
+    "https://code-craze-blog-mern-mj-patels-projects-41476ddd.vercel.app:5173",
 });
 
 // Request interceptor to add JWT token to headers
